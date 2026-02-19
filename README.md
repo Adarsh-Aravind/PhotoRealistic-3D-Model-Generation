@@ -1,8 +1,8 @@
-# 🎨 Vibecode: Photorealistic 3D Model Generation
+# 🎨 Photorealistic 3D Model Generation
 
 ![Project Banner](https://img.shields.io/badge/Status-Complete-green) ![Tech](https://img.shields.io/badge/Tech-Next.js%20%7C%20Three.js%20%7C%20Python%20%7C%20PyTorch-blue)
 
-**Vibecode** is a local, AI-powered web application that generates 3D models and textures from text prompts or video inputs. It brings the power of generative AI (OpenAI Shap-E & Stable Diffusion) directly to your browser for real-time interaction.
+AI-powered web application that generates 3D models and textures from text prompts or video inputs. It brings the power of generative AI (OpenAI Shap-E & Stable Diffusion) directly to your browser for real-time interaction.
 
 ## ✨ Key Features
 
