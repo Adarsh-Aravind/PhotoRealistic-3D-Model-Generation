@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment (Heavy!)
+venv/
+env/
+.env
+
+# Generated Content
+generated_assets/
+models/
+
+# VS Code
+.vscode/

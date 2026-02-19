@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+python-multipart
+numpy
+pillow
+trimesh
+scipy
+opencv-python-headless
+diffusers
+transformers
+accelerate
+safetensors
+pydantic
+
+# Note: pytorch should be installed manually for GPU support (see INSTALL.md)
+# pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
