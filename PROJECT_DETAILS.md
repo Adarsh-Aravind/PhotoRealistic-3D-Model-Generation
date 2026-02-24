@@ -1,4 +1,4 @@
-# 📚 Project Vibecode: Technical Documentation
+# 📚 Project: Technical Documentation
 
 ## 1. Project Overview
 **What is this?**
