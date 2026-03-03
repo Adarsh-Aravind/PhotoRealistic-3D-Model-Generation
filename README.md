@@ -46,6 +46,20 @@ AI-powered web application that generates 3D models and textures from text promp
 
 3.  **Open App**: Go to [http://localhost:3000](http://localhost:3000)
 
+## 🛑 Stopping Background Processes
+
+If you encounter an "Address already in use (Port 8000)" error, or if AI models are stuck processing in the background, you can force-stop all Python processes. To do this, run this command in Administrator Command Prompt or PowerShell:
+
+```powershell
+taskkill /F /IM python.exe /T
+```
+
+*   `/F`: Forcefully terminates the process.
+*   `/IM python.exe`: Targets any process named `python.exe` (like the FastAPI backend server).
+*   `/T`: Terminates all child processes spawned by the main script (kills PyTorch workers and subprocesses).
+
+Run this command if you need a clean slate before starting `server.py` again.
+
 ## 🛠️ Tech Stack
 
 *   **Frontend**: Next.js 15, React 19, Tailwind CSS v4, Zustand.
