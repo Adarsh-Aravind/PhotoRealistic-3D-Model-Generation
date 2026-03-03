@@ -1,176 +1,209 @@
-import os
+﻿import os
+import io
+import uuid
 import torch
-import numpy as np
 import trimesh
+import numpy as np
+from typing import List, Optional
+from PIL import Image
 from fastapi import FastAPI, HTTPException, UploadFile, File
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from diffusers import ShapEPipeline, ShapEImg2ImgPipeline, StableDiffusionPipeline
-import uuid
-from PIL import Image
-import io
+from rembg import remove, new_session
 
-def export_to_glb(mesh, path):
-    try:
-        # Shap-E mesh output usually has .verts and .faces
-        # depending on version it might be different, but typically:
-        if hasattr(mesh, 'verts') and hasattr(mesh, 'faces'):
-            # It's a Shap-E mesh object
-            t_mesh = trimesh.Trimesh(vertices=mesh.verts.cpu().numpy(), faces=mesh.faces.cpu().numpy())
-            t_mesh.export(path, file_type='glb')
-        else:
-            # Fallback or strict check
-            raise ValueError("Unknown mesh format")
-    except Exception as e:
-        print(f"Export failed: {e}")
-        raise e
+# Shap-E imports
+from shap_e.diffusion.sample import sample_latents
+from shap_e.diffusion.gaussian_diffusion import diffusion_from_config
+from shap_e.models.download import load_model, load_config
+from shap_e.util.notebooks import decode_latent_mesh
+
+# Diffusers imports for stable diffusion
+from diffusers import AutoPipelineForText2Image
 
 app = FastAPI()
 
-# CORS settings to allow frontend access
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Output directory
 OUTPUT_DIR = "generated_assets"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Global model placeholders
-shape_pipeline = None
-shape_img_pipeline = None
-texture_pipeline = None
+# Temporary override because PyTorch stable doesn't support RTX 5070 Blackwell natively
+device = torch.device('cpu') 
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(f"Using device: {device}")
 
-def get_shape_pipeline():
-    global shape_pipeline
-    if shape_pipeline is None:
-        print("Loading Shap-E Text-to-3D Pipeline...")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        shape_pipeline = ShapEPipeline.from_pretrained(
-            "openai/shap-e", 
-            torch_dtype=torch.float16 if device == "cuda" else torch.float32,
-            # variant="fp16" is not available for shap-e
-        ).to(device)
-    return shape_pipeline
+rembg_session = new_session("u2net")
 
-def get_shape_img_pipeline():
-    global shape_img_pipeline
-    if shape_img_pipeline is None:
-        print("Loading Shap-E Image-to-3D Pipeline...")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        shape_img_pipeline = ShapEImg2ImgPipeline.from_pretrained(
-            "openai/shap-e-img2img", 
-            torch_dtype=torch.float16 if device == "cuda" else torch.float32,
-            # variant="fp16" is not available usually
-        ).to(device)
-    return shape_img_pipeline
+# ===============================
+# LAZY LOAD MODELS TO SAVE MEMORY
+# ===============================
+models = {}
 
-def get_texture_pipeline():
-    global texture_pipeline
-    if texture_pipeline is None:
-        print("Loading Texture Pipeline (Stable Diffusion)...")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        # Switching to v1-5 as it is often more reliable installation-wise
-        texture_pipeline = StableDiffusionPipeline.from_pretrained(
-            "runwayml/stable-diffusion-v1-5",
-            torch_dtype=torch.float16 if device == "cuda" else torch.float32,
-            variant="fp16" if device == "cuda" else None
-        ).to(device)
-    return texture_pipeline
+def get_shap_e_models():
+    if "shap_e_text" not in models:
+        print("Loading Shap-E models...")
+        models["shap_e_xm"] = load_model('transmitter', device=device)
+        models["shap_e_text"] = load_model('text300M', device=device)
+        models["shap_e_image"] = load_model('image300M', device=device)
+        models["shap_e_diffusion"] = diffusion_from_config(load_config('diffusion'))
+        print("Shap-E models loaded.")
+    return models["shap_e_xm"], models["shap_e_text"], models["shap_e_image"], models["shap_e_diffusion"]
 
-class PromptRequest(BaseModel):
+def get_sd_pipeline():
+    if "sd_pipe" not in models:
+        print("Loading Stable Diffusion...")
+        # using a fast small model or standard 1.5
+        pipe = AutoPipelineForText2Image.from_pretrained("runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32)
+        pipe = pipe.to(device)
+        models["sd_pipe"] = pipe
+        print("Stable Diffusion loaded.")
+    return models["sd_pipe"]
+
+
+def export_to_glb(shap_mesh, path):
+    verts = shap_mesh.verts
+    faces = shap_mesh.faces
+    
+    colors = None
+    if "R" in shap_mesh.vertex_channels and "G" in shap_mesh.vertex_channels and "B" in shap_mesh.vertex_channels:
+        r = np.array(shap_mesh.vertex_channels["R"])
+        g = np.array(shap_mesh.vertex_channels["G"])
+        b = np.array(shap_mesh.vertex_channels["B"])
+        colors = np.stack([r, g, b], axis=1)
+        colors = np.clip(colors * 255.0, 0, 255).astype(np.uint8)
+
+    t_mesh = trimesh.Trimesh(
+        vertices=verts,
+        faces=faces,
+        vertex_colors=colors
+    )
+    t_mesh.export(path, file_type="glb")
+
+class TextPrompt(BaseModel):
     prompt: str
 
 @app.get("/")
-def health_check():
+def health():
     return {"status": "running", "gpu": torch.cuda.is_available()}
 
 @app.post("/generate/text-to-3d")
-async def generate_3d(request: PromptRequest):
+async def generate_text_to_3d(data: TextPrompt):
+    prompt = data.prompt
+    if not prompt:
+        raise HTTPException(status_code=400, detail="Prompt is required")
+    
     try:
-        pipe = get_shape_pipeline()
+        xm, text_model, _, diffusion = get_shap_e_models()
         
-        print(f"Generating 3D model for: {request.prompt}")
-        images = pipe(
-            request.prompt, 
-            num_inference_steps=64, 
-            frame_size=256, 
-            output_type="mesh"
-        ).images
+        print(f"Generating 3D for text: {prompt}")
+        batch_size = 1
+        guidance_scale = 15.0
+        
+        latents = sample_latents(
+            batch_size=batch_size,
+            model=text_model,
+            diffusion=diffusion,
+            guidance_scale=guidance_scale,
+            model_kwargs=dict(texts=[prompt] * batch_size),
+            progress=True,
+            clip_denoised=True,
+            use_fp16=True,
+            use_karras=True,
+            karras_steps=64,
+            sigma_min=1e-3,
+            sigma_max=160,
+            s_churn=0,
+        )
+        
+        mesh = decode_latent_mesh(xm, latents[0]).triangulate()
         
         filename = f"{uuid.uuid4()}.glb"
         filepath = os.path.join(OUTPUT_DIR, filename)
+        export_to_glb(mesh, filepath)
         
-        export_to_glb(images[0], filepath)
         return FileResponse(filepath, media_type="model/gltf-binary", filename=filename)
         
     except Exception as e:
-        print(f"Error: {e}")
+        print("ERROR:", e)
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/generate/image-to-3d")
-async def generate_3d_from_image(file: UploadFile = File(...)):
+async def generate_image_to_3d(file: UploadFile = File(...)):
     try:
-        pipe = get_shape_img_pipeline()
-        
-        print(f"Generating 3D model from image: {file.filename}")
-        
-        # Read image
         contents = await file.read()
-        print(f"Received file size: {len(contents)} bytes")
-        
         if len(contents) == 0:
-            raise HTTPException(status_code=400, detail="Empty file received")
-
-        try:
-            image = Image.open(io.BytesIO(contents)).convert("RGB")
-        except Exception as img_err:
-            print(f"PIL Error: {img_err}")
-            raise HTTPException(status_code=400, detail=f"Invalid image format: {str(img_err)}")
+            raise HTTPException(status_code=400, detail="Empty file")
+            
+        img = Image.open(io.BytesIO(contents)).convert("RGBA")
+        img = remove(img, session=rembg_session)
+        img = img.convert("RGB")
         
-        # Resize to standard size for Shap-E usually good practice
-        image = image.resize((256, 256))
-
-        images = pipe(
-            image, 
-            num_inference_steps=64, 
-            frame_size=256, 
-            output_type="mesh"
-        ).images
+        xm, _, image_model, diffusion = get_shap_e_models()
+        
+        print(f"Generating 3D from image...")
+        batch_size = 1
+        guidance_scale = 3.0
+        
+        latents = sample_latents(
+            batch_size=batch_size,
+            model=image_model,
+            diffusion=diffusion,
+            guidance_scale=guidance_scale,
+            model_kwargs=dict(images=[img] * batch_size),
+            progress=True,
+            clip_denoised=True,
+            use_fp16=True,
+            use_karras=True,
+            karras_steps=64,
+            sigma_min=1e-3,
+            sigma_max=160,
+            s_churn=0,
+        )
+        
+        mesh = decode_latent_mesh(xm, latents[0]).triangulate()
         
         filename = f"{uuid.uuid4()}.glb"
         filepath = os.path.join(OUTPUT_DIR, filename)
+        export_to_glb(mesh, filepath)
         
-        export_to_glb(images[0], filepath)
         return FileResponse(filepath, media_type="model/gltf-binary", filename=filename)
         
     except Exception as e:
-        print(f"Error: {e}")
+        print("ERROR:", e)
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/generate/texture")
-async def generate_texture(request: PromptRequest):
+async def generate_texture(data: TextPrompt):
+    prompt = data.prompt
+    if not prompt:
+        raise HTTPException(status_code=400, detail="Prompt is required")
+        
     try:
-        pipe = get_texture_pipeline()
+        pipe = get_sd_pipeline()
+        print(f"Generating texture for: {prompt}")
         
-        print(f"Generating texture for: {request.prompt}")
-        prompt = f"seamless texture of {request.prompt}, high resolution, detailed, flat lighting"
+        image = pipe(
+            prompt=f"seamless texture, {prompt}, highly detailed, 4k",
+            negative_prompt="blurry, lowres, ugly",
+            num_inference_steps=20,
+            guidance_scale=7.5
+        ).images[0]
         
-        image = pipe(prompt, num_inference_steps=25).images[0]
+        buf = io.BytesIO()
+        image.save(buf, format="PNG")
+        buf.seek(0)
         
-        filename = f"{uuid.uuid4()}.png"
-        filepath = os.path.join(OUTPUT_DIR, filename)
-        image.save(filepath)
-        
-        return FileResponse(filepath, media_type="image/png")
+        return Response(content=buf.getvalue(), media_type="image/png")
         
     except Exception as e:
-        print(f"Error: {e}")
+        print("ERROR:", e)
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
