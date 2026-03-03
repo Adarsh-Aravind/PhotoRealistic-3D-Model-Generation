@@ -15,6 +15,22 @@ Before starting, ensure you have the following installed:
 
 The backend runs the AI models (Shap-E & Stable Diffusion). It requires a specific PyTorch version for your RTX 5070.
 
+### Setup Options
+
+You have two options to set up the backend: an **Automated Script** (recommended for RTX 5070) or a **Manual Setup**.
+
+#### Option 1: Automated Script (Recommended) 🚀
+We provide an automated script that creates a virtual environment (`venv310`), installs basic requirements, and uses a robust Python script (`download_pytorch_nightly.py`) to download the ~2.8GB PyTorch Nightly wheel.
+
+Open a terminal (Command Prompt or PowerShell) and run:
+```powershell
+cd backend
+setup_gpu_overnight.bat
+```
+*Wait for the script to finish. It will automatically create the environment and install all libraries.*
+
+#### Option 2: Manual Setup
+
 ### A. Create Environment
 Open a terminal (Command Prompt or PowerShell) in the `backend` folder:
 ```powershell
@@ -75,7 +91,8 @@ You need **two terminals** open side-by-side:
 **Terminal 1 (Backend):**
 ```powershell
 cd backend
-.\venv\Scripts\activate
+# Use .\venv\Scripts\activate if you manually created a 'venv' folder
+.\venv310\Scripts\activate
 python server.py
 ```
 

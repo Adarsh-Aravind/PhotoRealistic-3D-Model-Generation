@@ -24,10 +24,17 @@ AI-powered web application that generates 3D models and textures from text promp
 1.  **Backend (Python)**
     ```bash
     cd backend
-    python -m venv venv
-    .\venv\Scripts\activate
-    pip install -r requirements.txt
-    # Install PyTorch Nightly (See INSTALL.md for command)
+    
+    # Option 1: Automated Setup (for Windows / RTX GPUs)
+    setup_gpu_overnight.bat
+    
+    # Option 2: Manual Setup
+    # python -m venv venv310
+    # .\venv310\Scripts\activate
+    # pip install -r requirements.txt
+    # (See INSTALL.md for PyTorch Nightly command)
+    
+    .\venv310\Scripts\activate
     python server.py
     ```
 

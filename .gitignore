@@ -43,3 +43,9 @@ next-env.d.ts
 # Visual Studio
 .vs/
 *.db
+
+# Large backend files and environments
+backend/venv310/
+backend/python-installer.exe
+backend/shap_e_model_cache/
+*.whl
