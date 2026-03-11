@@ -58,17 +58,27 @@ You might wonder: *"How does it turn a video into a 3D model in 10 seconds?"*
 
 **Why does the model sometimes look "low poly" or "blobby"?**
 
-We made a conscious engineering trade-off: **Latency > Fidelity**.
+We made a conscious engineering trade-off: **Latency > Fidelity**, but with recent optimizations we've maximized quality within the 10-20s window.
 
-*   **Option A (High Quality)**: Use NeRF (Neural Radiance Fields).
-    *   *Pros*: Photo-realistic.
+*   **Option A (High Quality)**: Use NeRF / Photogrammetry (COLMAP) / MVDream multi-view.
+    *   *Pros*: Photo-realistic, mathematically perfect.
     *   *Cons*: Takes 45+ minutes per object. Impossible for a live demo.
     *   *Requires*: Server farm or multi-GPU setup.
 
 *   **Option B (Our Choice)**: Use Shap-E (Implicit Functions).
     *   *Pros*: Generates in **10-15 seconds**. Runs on a single consumer GPU (RTX 5070).
-    *   *Cons*: Lower polygon count; struggles with complex organic shapes.
-    *   *Verdict*: Perfect for a college presentation where "dead air" (waiting) is bad.
+    *   *Cons*: Lower polygon count natively.
+    *   *Verdict*: We pushed this to its absolute limit for the presentation by aggressively tuning the neural engine and the viewer.
+
+### A. Tuning the Neural Engine (Marching Cubes & Diffusion)
+To counteract the "blobby" effect of fast AI generation, we implemented custom over-rides in `server.py`:
+1.  **Increased Diffusion Precision**: Default `karras_steps` bumped from 64 to `128`. This forces Shap-E to spend double the geometric refinement steps resolving edges before finalizing the model.
+2.  **Increased Guidance**: Bumped `guidance_scale` for Image-to-3D to lock the geometry closer to the visual contours of the source image.
+
+### B. The 3D Rendering Overhaul (The Glossy Fix)
+The neural network outputs a mathematical mesh, but it's up to the browser to make it look good.
+1.  **Vertex Normals**: Shap-E natively exports `.glb` models *without* normal vectors. Light cannot reflect without normals. We patched the Frontend ThreeJS loader to mathematically `computeVertexNormals()` client-side on every load, fixing the "flat black" lighting bug.
+2.  **Studio Lighting & Gloss**: Implemented real-time `RoomEnvironment` Image-Based Lighting (IBL). By reducing ThreeJS material `roughness` to `0.1`, the generated objects now accurately reflect a simulated photo studio environment, giving them a premium, glossy PBR finish.
 
 ---
 

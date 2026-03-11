@@ -68,18 +68,13 @@ Since you have an **RTX 5070**, standard PyTorch might fail. You must install th
 
 The frontend provides the user interface to interact with the AI.
 
-### A. Install Packages
-Open a **new** terminal in the main project folder (where `package.json` is):
+### A. Start the Server
+Open a **new** terminal in the main project folder:
 ```powershell
-cd D:\Programming\Projects\MainProject-vibecode
-npm install
+cd Frontend
+run_frontend.bat
 ```
-
-### B. Start the Server
-```powershell
-npm run dev
-```
-*   **Success**: You see `Ready in ... ms`.
+*   **Success**: You see `Running a local Python HTTP server on port 3000...`.
 *   **Access**: Open your browser to `http://localhost:3000`.
 
 ---
@@ -98,7 +93,8 @@ python server.py
 
 **Terminal 2 (Frontend):**
 ```powershell
-npm run dev
+cd Frontend
+run_frontend.bat
 ```
 
 ---
@@ -108,8 +104,7 @@ npm run dev
 ### "Address already in use" Error
 If the server says Port 8000 or 3000 is busy:
 1.  Open cmd as Admin.
-2.  Run: `taskkill /F /IM python.exe` (kills backend).
-3.  Run: `taskkill /F /IM node.exe` (kills frontend).
+2.  Run: `taskkill /F /IM python.exe` (kills both backend and frontend servers).
 
 ### "Video Extraction Failed"
 If uploading a video fails:

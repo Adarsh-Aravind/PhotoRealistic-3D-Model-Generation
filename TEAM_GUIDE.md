@@ -68,10 +68,10 @@ The backend runs the Python AI models.
 ### 3. Frontend Setup (The Website)
 The frontend is the user interface.
 
-1.  Open a **new terminal** in the main project folder (where `package.json` is).
-2.  Install libraries:
+1.  Open a **new terminal** in the main project folder.
+2.  Navigate to the Frontend directory:
     ```bash
-    npm install
+    cd Frontend
     ```
 
 ---
@@ -88,11 +88,12 @@ python server.py
 ```
 *Wait until you see:* `INFO: Uvicorn running on http://127.0.0.1:8000` and `GPU Available: True`.
 
-### Terminal 2: Frontend Website (Next.js)
+### Terminal 2: Frontend Website (Web Portal)
 ```powershell
-npm run dev
+cd Frontend
+run_frontend.bat
 ```
-*Wait until you see:* `Ready in ... ms`.
+*Wait until you see:* `Access the frontend at: http://localhost:3000`.
 
 **Now open your browser to:** [http://localhost:3000](http://localhost:3000)
 

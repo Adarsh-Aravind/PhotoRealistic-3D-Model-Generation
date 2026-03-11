@@ -38,10 +38,12 @@ AI-powered web application that generates 3D models and textures from text promp
     python server.py
     ```
 
-2.  **Frontend (Next.js)**
+2.  **Frontend (Web Portal)**
     ```bash
-    npm install
-    npm run dev
+    cd Frontend
+    
+    # Run the dedicated cache-busting web server
+    run_frontend.bat
     ```
 
 3.  **Open App**: Go to [http://localhost:3000](http://localhost:3000)
