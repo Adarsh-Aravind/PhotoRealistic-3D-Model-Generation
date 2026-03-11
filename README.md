@@ -1,4 +1,4 @@
-# Photorealistic 3D Model Generation
+# NUEROMESH
 
 ![Project Banner](https://img.shields.io/badge/Status-Complete-green) ![Tech](https://img.shields.io/badge/Tech-Next.js%20%7C%20Three.js%20%7C%20Python%20%7C%20PyTorch-blue)
 
