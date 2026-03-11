@@ -13,6 +13,9 @@ safetensors
 pydantic
 einops
 git+https://github.com/openai/shap-e.git
+rembg
+onnxruntime
+ipywidgets
 
 # Note: pytorch should be installed manually for GPU support (see INSTALL.md)
 # pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128

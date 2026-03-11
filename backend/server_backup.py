@@ -115,14 +115,12 @@ async def generate_text_to_3d(data: TextPrompt):
             clip_denoised=True,
             use_fp16=True,
             use_karras=True,
-            karras_steps=128, # Increased from 64 for better quality
+            karras_steps=64,
             sigma_min=1e-3,
             sigma_max=160,
             s_churn=0,
         )
         
-        # Pass explicitly higher grid_size (default is often 64-128 depending on model config)
-        # 256 greatly increases detail at the cost of processing time. 128 is a good balance.
         mesh = decode_latent_mesh(xm, latents[0]).tri_mesh()
         
         filename = f"{uuid.uuid4()}.glb"
@@ -150,7 +148,7 @@ async def generate_image_to_3d(file: UploadFile = File(...)):
         
         print(f"Generating 3D from image...")
         batch_size = 1
-        guidance_scale = 4.0 # Slightly higher guidance for better accuracy
+        guidance_scale = 3.0
         
         latents = sample_latents(
             batch_size=batch_size,
@@ -162,7 +160,7 @@ async def generate_image_to_3d(file: UploadFile = File(...)):
             clip_denoised=True,
             use_fp16=True,
             use_karras=True,
-            karras_steps=128, # Increased for better quality
+            karras_steps=64,
             sigma_min=1e-3,
             sigma_max=160,
             s_churn=0,
