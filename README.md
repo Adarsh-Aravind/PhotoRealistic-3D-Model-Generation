@@ -1,18 +1,18 @@
-# 🎨 Photorealistic 3D Model Generation
+# Photorealistic 3D Model Generation
 
 ![Project Banner](https://img.shields.io/badge/Status-Complete-green) ![Tech](https://img.shields.io/badge/Tech-Next.js%20%7C%20Three.js%20%7C%20Python%20%7C%20PyTorch-blue)
 
-AI-powered web application that generates 3D models and textures from text prompts or video inputs. It brings the power of generative AI (OpenAI Shap-E & Stable Diffusion) directly to your browser for real-time interaction.
+An AI-powered web application that generates 3D models and textures from text prompts or video inputs. It integrates generative AI models (OpenAI Shap-E and Stable Diffusion) directly into a browser-based interface for real-time interaction and editing.
 
-## ✨ Key Features
+## Key Features
 
-*   **📝 Text-to-3D**: Type a prompt (e.g., "A golden trophy") and generate a 3D mesh in seconds.
-*   **📹 Video-to-3D**: Upload a video file to extract an object and convert it into a 3D model.
-*   **🎨 AI Texturing**: Apply realistic PBR materials to any model using Stable Diffusion (Text-to-Texture).
-*   **⚡ Real-Time Editor**: Adjust material properties (Roughness, Metalness) instantly in the 3D viewer.
-*   **🏠 Local Execution**: Runs entirely on your machine using your GPU (No cloud API costs!).
+*   **Text-to-3D Integration**: Rapidly generate a 3D mesh from descriptive text prompts (e.g., "A golden trophy").
+*   **Video-to-3D Extraction**: Upload a video file to autonomously extract an object and convert it into a 3D model.
+*   **AI-Driven Texturing**: Apply realistic PBR (Physically Based Rendering) materials to any model using a Text-to-Texture Stable Diffusion pipeline.
+*   **Real-Time Material Editor**: Adjust physical material properties such as Roughness and Metalness instantly within the WebGL 3D viewer.
+*   **Local GPU Execution**: Designed to run entirely on local consumer hardware, eliminating cloud API dependencies and latency.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 *   **NVIDIA GPU** (RTX 3060 or higher recommended, optimized for RTX 5070).
@@ -48,9 +48,9 @@ AI-powered web application that generates 3D models and textures from text promp
 
 3.  **Open App**: Go to [http://localhost:3000](http://localhost:3000)
 
-## 🛑 Stopping Background Processes
+## Process Management
 
-If you encounter an "Address already in use (Port 8000)" error, or if AI models are stuck processing in the background, you can force-stop all Python processes. To do this, run this command in Administrator Command Prompt or PowerShell:
+If the application fails to bind to the required ports (e.g., "Address already in use"), or if the AI models hang during background processing, you may need to force-stop the Python processes. Execute the following command in an Administrator Command Prompt or PowerShell session:
 
 ```powershell
 taskkill /F /IM python.exe /T
@@ -60,9 +60,9 @@ taskkill /F /IM python.exe /T
 *   `/IM python.exe`: Targets any process named `python.exe` (like the FastAPI backend server).
 *   `/T`: Terminates all child processes spawned by the main script (kills PyTorch workers and subprocesses).
 
-Run this command if you need a clean slate before starting `server.py` again.
+Run this command when a clean state is required before restarting the backend server.
 
-## 🛠️ Tech Stack
+## Technology Stack
 
 *   **Frontend**: Next.js 15, React 19, Tailwind CSS v4, Zustand.
 *   **3D Engine**: Three.js, React Three Fiber.
@@ -72,8 +72,8 @@ Run this command if you need a clean slate before starting `server.py` again.
     *   **Stable Diffusion v1.5**: For Texture Generation.
     *   **OpenCV**: For Video Frame Extraction.
 
-## 📄 Documentation
-For a deep dive into the architecture and design decisions (Speed vs. Quality), check out [PROJECT_DETAILS.md](./PROJECT_DETAILS.md).
+## Documentation
+For a detailed analysis of the system architecture, performance trade-offs, and rendering pipelines, please refer to [PROJECT_DETAILS.md](./PROJECT_DETAILS.md).
 
 ---
-*Created by Adarsh Aravind*
+*Developed by Adarsh Aravind*
