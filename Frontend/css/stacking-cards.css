@@ -1,0 +1,203 @@
+/* --- STACKING CARDS CSS --- */
+:root {
+    --card-height: 40vw;
+    --card-margin: 4vw;
+    --card-top-offset: 1em;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --card-height: 60vh;
+        --card-margin: 6vw;
+    }
+}
+
+#cards {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, var(--card-height));
+    gap: var(--card-margin);
+    padding-bottom: calc(6 * var(--card-margin));
+    margin-bottom: var(--card-margin);
+    max-width: 90vw;
+    margin: 0 auto;
+}
+
+.card-wrapper {
+    position: sticky;
+    top: 15vh;
+    height: var(--card-height);
+    padding-top: calc(var(--index) * var(--card-top-offset));
+    perspective: 1000px;
+}
+
+.card__content {
+    box-sizing: border-box;
+    padding: 50px;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: var(--bg);
+    color: var(--fg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    position: relative;
+
+    transform-origin: 50% 0%;
+    will-change: transform, filter;
+    transform-style: preserve-3d;
+
+    animation: scale-card linear forwards;
+    animation-timeline: view();
+    animation-range: exit-crossing 0% exit-crossing 100%;
+}
+
+/* Card Variants (Cyberpunk Colors) */
+.card-wrapper:nth-child(1) {
+    --index: 1;
+}
+
+.card-wrapper:nth-child(1) .card__content {
+    background: #FBB4AE;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--bg);
+    --shadow-color: rgba(251, 180, 174, 0.4);
+}
+
+.card-wrapper:nth-child(1) .card__content p {
+    color: rgba(17, 17, 17, 0.8);
+    font-weight: 500;
+}
+
+.card-wrapper:nth-child(2) {
+    --index: 2;
+}
+
+.card-wrapper:nth-child(2) .card__content {
+    background: #B3CDE3;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--bg);
+    --shadow-color: rgba(179, 205, 227, 0.4);
+}
+
+.card-wrapper:nth-child(2) .card__content p {
+    color: rgba(17, 17, 17, 0.8);
+    font-weight: 500;
+}
+
+.card-wrapper:nth-child(3) {
+    --index: 3;
+}
+
+.card-wrapper:nth-child(3) .card__content {
+    background: #CCEBC5;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--bg);
+    --shadow-color: rgba(204, 235, 197, 0.4);
+}
+
+.card-wrapper:nth-child(3) .card__content p {
+    color: rgba(17, 17, 17, 0.8);
+    font-weight: 500;
+}
+
+.card-wrapper:nth-child(4) {
+    --index: 4;
+}
+
+.card-wrapper:nth-child(4) .card__content {
+    background: #DECBE4;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--bg);
+    --shadow-color: rgba(222, 203, 228, 0.4);
+}
+
+.card-wrapper:nth-child(4) .card__content p {
+    color: rgba(17, 17, 17, 0.8);
+    font-weight: 500;
+}
+
+.card-wrapper:nth-child(5) {
+    --index: 5;
+}
+
+.card-wrapper:nth-child(5) .card__content {
+    background: #FED9A6;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--bg);
+    --shadow-color: rgba(254, 217, 166, 0.4);
+}
+
+.card-wrapper:nth-child(5) .card__content p {
+    color: rgba(17, 17, 17, 0.8);
+    font-weight: 500;
+}
+
+.card-wrapper:nth-child(6) {
+    --index: 6;
+}
+
+.card-wrapper:nth-child(6) .card__content {
+    background: #FFFFCC;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--bg);
+    --shadow-color: rgba(255, 255, 204, 0.4);
+}
+
+.card-wrapper:nth-child(6) .card__content p {
+    color: rgba(17, 17, 17, 0.8);
+    font-weight: 500;
+}
+
+@keyframes scale-card {
+    to {
+        transform: scale(0.9) translateY(-5vh) rotateX(-15deg);
+        filter: brightness(0.4);
+        border-radius: 20px;
+        box-shadow: 0 -20px 80px -10px var(--shadow-color);
+    }
+}
+
+.card-wrapper h2 {
+    font-family: 'Syncopate', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+}
+
+.card-wrapper p,
+.card-wrapper .card-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    max-width: 800px;
+    line-height: 1.6;
+    color: rgba(17, 17, 17, 0.8);
+    font-weight: 500;
+}
+
+.card-wrapper ul.card-text {
+    padding-left: 1.5rem;
+    margin: 0;
+}
+
+.card-wrapper ul.card-text li {
+    margin-bottom: 0.5rem;
+}
+
+.card-wrapper .number {
+    font-family: 'Syncopate', sans-serif;
+    font-size: clamp(6rem, 15vw, 15rem);
+    position: absolute;
+    right: 2rem;
+    top: -2rem;
+    opacity: 0.05;
+    font-weight: 800;
+    -webkit-text-stroke: 2px var(--fg);
+    color: transparent;
+}

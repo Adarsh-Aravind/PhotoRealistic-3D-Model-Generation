@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Project | NeuroMesh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700;800&family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/liquid-transition.css">
+    <link rel="stylesheet" href="css/stacking-cards.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="noise"></div>
+    <div id="cursor"></div>
+
+    <nav class="brutal-nav">
+        <a href="index.html" class="nav-logo magnetic" style="text-decoration: none;">NEUROMESH</a>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link magnetic" data-text="HOME">HOME</a></li>
+            <li><a href="about.html" class="nav-link magnetic" data-text="ABOUT">ABOUT</a></li>
+            <li><a href="research.html" class="nav-link magnetic" data-text="RESEARCH">RESEARCH</a></li>
+            <li><a href="members.html" class="nav-link magnetic" data-text="TEAM">TEAM</a></li>
+        </ul>
+        <a href="generate.html" style="text-decoration: none;"><button class="cta-btn magnetic"><span>TRY
+                    DEMO</span></button></a>
+    </nav>
+
+    <!-- Scroll Skew Content Wrapper -->
+    <div id="scroll-content">
+        <section class="section-dark brutal-section"
+            style="padding-top: 15vw; flex-direction: column; align-items: flex-start;">
+            <div class="container" style="max-width: 1200px; margin: 0 auto; width: 100%;">
+                <h1
+                    style="font-family: 'Syncopate'; font-size: 5vw; line-height: 1; margin-bottom: 4rem; -webkit-text-stroke: 1px var(--fg); color: transparent;">
+                    PROJECT <span style="color:var(--accent); -webkit-text-stroke: 0px;">OVERVIEW</span>
+                </h1>
+
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; width: 100%;">
+                    <!-- Core Identity -->
+                    <div class="glass-card gs-reveal" style="border-top: 3px solid var(--fg); padding: 2.5rem;">
+                        <i data-lucide="scan-face"
+                            style="color: var(--fg); width: 32px; height: 32px; margin-bottom: 1.5rem;"></i>
+                        <h3 style="font-family: 'Syncopate'; font-size: 1.2rem; margin-bottom: 1rem; color: var(--fg);">
+                            THE SYSTEM</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+                            <strong style="color: var(--accent);">Photorealistic 3D Model Generation</strong> is an
+                            AI-powered
+                            web-based engine that instantly converts real-world objects from standard 2D photos or video
+                            clips into
+                            high-fidelity, interactive 3D topology.
+                        </p>
+                    </div>
+
+                    <!-- Neural Process -->
+                    <div class="glass-card gs-reveal" style="border-top: 3px solid var(--secondary); padding: 2.5rem;">
+                        <i data-lucide="cpu"
+                            style="color: var(--secondary); width: 32px; height: 32px; margin-bottom: 1.5rem;"></i>
+                        <h3 style="font-family: 'Syncopate'; font-size: 1.2rem; margin-bottom: 1rem; color: var(--fg);">
+                            DEEP RECONSTRUCTION</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+                            The architecture analyzes visual input using advanced deep learning models to autonomously
+                            reconstruct
+                            the object's structural geometry and texture, outputting a highly accurate 3D spatial
+                            representation.
+                        </p>
+                    </div>
+
+                    <!-- Impact -->
+                    <div class="glass-card gs-reveal" style="border-top: 3px solid #ff3333; padding: 2.5rem;">
+                        <i data-lucide="zap"
+                            style="color: #ff3333; width: 32px; height: 32px; margin-bottom: 1.5rem;"></i>
+                        <h3 style="font-family: 'Syncopate'; font-size: 1.2rem; margin-bottom: 1rem; color: var(--fg);">
+                            ZERO MODELING</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+                            This autonomous pipeline allows end-users to quickly generate production-ready 3D assets
+                            entirely
+                            from scratch, completely bypassing hours of tedious manual topological modeling.
+                        </p>
+                    </div>
+
+                    <!-- Platform -->
+                    <div class="glass-card gs-reveal"
+                        style="border-top: 3px solid var(--accent); padding: 2.5rem; background: rgba(0, 255, 68, 0.05);">
+                        <i data-lucide="terminal"
+                            style="color: var(--accent); width: 32px; height: 32px; margin-bottom: 1.5rem;"></i>
+                        <h3
+                            style="font-family: 'Syncopate'; font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent);">
+                            VIBECODE TERMINAL</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+                            <strong style="color: var(--fg);">Vibecode</strong> is the web application developed to
+                            deploy this architecture,
+                            providing a real-time, browser-native interface for generating, viewing, and modifying the
+                            AI-generated assets directly in 3D space.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 3D Sticky Stacking Cards Section -->
+    <section style="padding: 10vh 0; background: #030303;">
+        <h1
+            style="font-family: 'Syncopate'; font-size: clamp(3rem, 6vw, 6rem); text-align: center; margin-bottom: 4rem; -webkit-text-stroke: 1px var(--fg); color: transparent;">
+            DEEP <span style="color:var(--accent); -webkit-text-stroke: 0px;">DIVE</span>
+        </h1>
+
+        <ul id="cards">
+            <li class="card-wrapper">
+                <div class="card__content">
+                    <span class="number">01</span>
+                    <h2>Project Objective</h2>
+                    <ul class="card-text">
+                        <li>Convert photos and video clips into 3D models automatically</li>
+                        <li>Reduce manual effort required in traditional 3D modeling</li>
+                        <li>Enable real-time 3D generation using AI</li>
+                        <li>Provide an interactive platform for viewing and editing models</li>
+                        <li>Utilize GPU acceleration for fast processing</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="card-wrapper">
+                <div class="card__content">
+                    <span class="number">02</span>
+                    <h2>Key Features</h2>
+                    <ul class="card-text">
+                        <li>Generate 3D models from photos</li>
+                        <li>Generate 3D models from video clips</li>
+                        <li>AI-based texture generation</li>
+                        <li>Real-time 3D model visualization</li>
+                        <li>Material editing (roughness, metalness, etc.)</li>
+                        <li>Fast local GPU processing</li>
+                        <li>Interactive browser-based interface</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="card-wrapper">
+                <div class="card__content">
+                    <span class="number">03</span>
+                    <h2>How the System Works</h2>
+                    <ul class="card-text">
+                        <li>User uploads a photo or video clip</li>
+                        <li>Video frames or image data are extracted</li>
+                        <li>AI model (Shap-E) generates the 3D mesh</li>
+                        <li>Stable Diffusion generates realistic textures</li>
+                        <li>The 3D model is displayed in the browser using Three.js</li>
+                        <li>User can interact and edit the model in real time</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="card-wrapper">
+                <div class="card__content">
+                    <span class="number">04</span>
+                    <h2>Technologies Used</h2>
+                    <ul class="card-text">
+                        <li><strong>Frontend:</strong> Next.js, React, Tailwind CSS</li>
+                        <li><strong>Backend:</strong> Python, FastAPI</li>
+                        <li><strong>AI Models:</strong> OpenAI Shap-E, Stable Diffusion, PyTorch with CUDA</li>
+                        <li><strong>3D Rendering:</strong> Three.js, React Three Fiber</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="card-wrapper">
+                <div class="card__content">
+                    <span class="number">05</span>
+                    <h2>Key Advantage</h2>
+                    <ul class="card-text">
+                        <li>Fully automated 3D model generation</li>
+                        <li>Runs locally using GPU acceleration</li>
+                        <li>Fast generation (10–15 seconds)</li>
+                        <li>No manual modeling required</li>
+                        <li>Real-time visualization and editing</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="card-wrapper">
+                <div class="card__content">
+                    <span class="number">06</span>
+                    <h2>Future Improvements</h2>
+                    <ul class="card-text">
+                        <li>Improve photorealism quality</li>
+                        <li>Support multiple image inputs</li>
+                        <li>Improve model accuracy</li>
+                        <li>Cloud deployment support</li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        style="height: 40vh; background: var(--fg); color: var(--bg); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <h2 style="font-family: 'Syncopate'; font-size: 3rem; margin-bottom:1rem;"><a href="index.html"
+                style="color: inherit; text-decoration: none;">NEUROMESH</a></h2>
+        <p>© 2026 Final Year Project</p>
+    </footer>
+
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/liquid-transition.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <style>
+        @media (max-width: 768px) {
+            .grid-split {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</body>
+
+</html>

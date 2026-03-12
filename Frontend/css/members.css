@@ -1,0 +1,371 @@
+@layer base, controls, mouse, demo;
+
+@layer demo {
+    :root {
+        --info-text-size: .75rem;
+        --primary-color: #00ff44;
+        /* Matched to global NeuroMesh neon green */
+        --secondary-color: #00aa22;
+        /* Matched to global darker green */
+        --title-font-family: 'Big Shoulders Text', display;
+    }
+
+    .members-page {
+        background-color: #030303;
+        /* Brutalist bg */
+        /* Adjusted height for 4 members instead of 7 to manage scroll timeline mapping */
+        min-height: 400svh;
+        margin: 0;
+        font-family: 'Inconsolata', monospace;
+        padding: 0;
+        /* Removing padding to let global nav layout work */
+        color: #e0e0e0;
+        /* light grey body text */
+    }
+
+    /* Optional: Background space overlay if requested, modified to match our green brutalist theme */
+    .members-page::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -10;
+        opacity: 0.1;
+        background-image: radial-gradient(var(--secondary-color), #0000 70%);
+        background-size: cover;
+    }
+
+    @property --focus {
+        syntax: "<number>";
+        inherits: true;
+        initial-value: 0;
+    }
+
+    @property --angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+    }
+
+    .logo {
+        position: fixed;
+        top: 20vh;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(80vw, 600px);
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        z-index: 0;
+        animation: fade-out-logo linear both;
+        animation-timeline: scroll();
+        animation-range: 0 10vh;
+    }
+
+    @keyframes fade-out-logo {
+        to {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
+    .names {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        place-content: center;
+        z-index: 1;
+        /* Below navbar */
+    }
+
+    .names h2 {
+        /* Since we only have 4 members now */
+        --total: 4;
+
+        &:nth-child(1) {
+            --i: 1;
+        }
+
+        &:nth-child(2) {
+            --i: 2;
+        }
+
+        &:nth-child(3) {
+            --i: 3;
+        }
+
+        &:nth-child(4) {
+            --i: 4;
+        }
+
+        /* for timing - adjusted for 4 */
+        --item-slot: calc(100% / var(--total));
+        --item-entry: calc((var(--i) - 1) * var(--item-slot));
+        --item-exit: calc(var(--item-entry) + var(--item-slot) * 2.5 - 22%);
+
+        grid-area: 1/1;
+        text-align:center;
+        font-family: 'Big Shoulders Text',
+        sans-serif;
+        font-size: clamp(3rem, 15.5vw + .35rem, 16rem);
+        text-transform: uppercase;
+        font-style: italic;
+        color: var(--primary-color);
+        filter: drop-shadow(2px 0 0 var(--secondary-color));
+
+        animation-name: fade-in;
+        animation-duration: 1ms;
+        animation-delay: .2ms;
+        animation-timeline: scroll();
+        animation-range: var(--item-entry) var(--item-exit);
+        animation-fill-mode: both;
+    }
+
+    @keyframes fade-in {
+
+        0%,
+        100% {
+            opacity: 0;
+        }
+
+        15%,
+        75% {
+            opacity: 1;
+            translate: 0 -27vh;
+        }
+    }
+
+    .wrapper {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    /* Floor line behind images */
+    .wrapper::after {
+        content: '';
+        position: absolute;
+        top: 65%;
+        left: 50%;
+        translate: -50% 0;
+        background: linear-gradient(90deg, #0000, var(--secondary-color), #0000);
+        height: 1px;
+        width: 90vw;
+        z-index: -1;
+    }
+
+    .wrapper .character {
+        --total: 4;
+
+        &:nth-child(1) {
+            --i: 1;
+        }
+
+        &:nth-child(2) {
+            --i: 2;
+        }
+
+        &:nth-child(3) {
+            --i: 3;
+        }
+
+        &:nth-child(4) {
+            --i: 4;
+        }
+
+        /* timing */
+        --item-slot: calc(100% / var(--total));
+        --item-entry: calc((var(--i) - 1) * var(--item-slot));
+        --item-exit: calc(var(--item-entry) + var(--item-slot) * 2.5 - 22%);
+
+        /* Pre-calculate the resting horizontal spread for each item */
+        --item-spread: calc((var(--i) - 2.5) * clamp(140px, 20vw, 220px));
+
+        /* ABSOLUTE CENTERING MATH */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        pointer-events: auto;
+
+        /* Set base values before animation kicks in */
+        transform: translate(calc(-50% + var(--item-spread)), -50%) scale(0.4);
+        z-index: 1;
+        filter: sepia(1) blur(2px) hue-rotate(0deg);
+
+        animation-name: item-focus;
+        animation-timeline: scroll();
+        animation-range: var(--item-entry) var(--item-exit);
+        animation-fill-mode: both;
+    }
+
+    .wrapper img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .data {
+        position: absolute;
+        top: 320px;
+        /* Push neatly under the 300px image */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 380px;
+        /* Wider than image */
+
+        transition: scale 150ms ease-in-out;
+        scale: var(--info-scale-x) 1;
+        backface-visibility: hidden;
+
+        /* Updated styling to match brutalist */
+        border-radius: 0;
+        border: 1px solid var(--secondary-color);
+        background-color: rgba(0, 20, 0, 0.85);
+        backdrop-filter: blur(5px);
+
+        padding: 1rem;
+        display: grid;
+        gap: 1rem 2rem;
+        grid-template-areas: 'title  title'
+            'info  notes';
+    }
+
+    .data h3 {
+        grid-area: title;
+        font-family: 'Big Shoulders Text', display;
+        font-size: clamp(1rem, 2.5vw + .045rem, 1.2rem);
+        line-height: 1;
+        margin: 0;
+        color: var(--primary-color);
+    }
+
+    .data p,
+    .data label {
+        font-size: clamp(.7rem, 1.25vw + .045rem, .85rem);
+        line-height: 1.3;
+        margin: 0;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .data div {
+        grid-area: info;
+        display: grid;
+        grid-template-columns: .5fr 1fr;
+        gap: .5rem;
+    }
+
+    .data div label {
+        opacity: .7;
+        color: var(--primary-color);
+    }
+
+    .notes {
+        grid-area: notes;
+        place-self: center;
+        text-wrap: pretty;
+    }
+
+    @keyframes item-focus {
+        0% {
+            transform: translate(calc(-50% + var(--item-spread)), -50%) scale(0.4);
+            filter: sepia(1) blur(2px) hue-rotate(0deg);
+            z-index: 1;
+            --info-scale-x: 0;
+        }
+
+        35% {
+            transform: translate(-50%, -50%) scale(1.2);
+            filter: sepia(0) blur(0px) hue-rotate(0deg);
+            z-index: 100;
+            --info-scale-x: 1;
+        }
+
+        65% {
+            transform: translate(-50%, -50%) scale(1.2);
+            filter: sepia(0) blur(0px) hue-rotate(0deg);
+            z-index: 100;
+            --info-scale-x: 1;
+        }
+
+        100% {
+            transform: translate(calc(-50% + var(--item-spread)), -50%) scale(0.4);
+            filter: sepia(1) blur(2px) hue-rotate(0deg);
+            z-index: 1;
+            --info-scale-x: 0;
+        }
+    }
+}
+
+/* Fix CSS filter bug hiding difference blended cursors */
+body.members-page #cursor {
+    mix-blend-mode: normal !important;
+}
+
+/* scroll indicator svg */
+@layer mouse {
+    .mouse {
+        position: fixed;
+        bottom: 4rem;
+        left: 50%;
+        translate: -50% 0;
+        rotate: 180deg;
+        display: block;
+        width: 50px;
+        height: 50px;
+        opacity: 1;
+        color: var(--primary-color);
+        display: none;
+        animation-name: mouse-fade, mouse-move;
+        animation-duration: 1ms, 1.5s;
+        animation-timing-function: linear, ease-in-out;
+        animation-fill-mode: forwards, both;
+        animation-iteration-count: 1, infinite;
+        animation-timeline: scroll(), auto;
+        z-index: 100;
+    }
+
+    @supports (animation-timeline: scroll()) {
+        .mouse {
+            display: block;
+        }
+    }
+
+    @keyframes mouse-move {
+        50% {
+            translate: -25px 20px;
+        }
+    }
+
+    @keyframes mouse-fade {
+        75% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+}
+
+@layer base {
+    body.members-page {
+        @supports not (animation-timeline: scroll()) {
+            &::before {
+                content: "Sorry, your browser doesn't support animation-timeline required for this page's effects.";
+                position: fixed;
+                top: 20vh;
+                left: 50%;
+                translate: -50% 0;
+                font-size: 0.8rem;
+                color: var(--primary-color);
+                z-index: 999;
+            }
+        }
+    }
+}

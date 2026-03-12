@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroMesh | Research & Methodology</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700;800&family=Outfit:wght@300;400;600;800&family=Inconsolata:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/research.css">
+    <link rel="stylesheet" href="css/liquid-transition.css">
+    <!-- Locomotive Scroll CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="research-page">
+    <!-- Global Overlay & Custom Cursor -->
+    <div class="noise"></div>
+    <div id="cursor"></div>
+
+    <!-- Brutal Navigation -->
+    <nav class="brutal-nav">
+        <a href="index.html" class="nav-logo magnetic" style="text-decoration: none;">NEUROMESH</a>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link magnetic" data-text="HOME">HOME</a></li>
+            <li><a href="about.html" class="nav-link magnetic" data-text="ABOUT">ABOUT</a></li>
+            <li><a href="research.html" class="nav-link magnetic" data-text="RESEARCH"
+                    style="color: var(--primary-color);">RESEARCH</a></li>
+            <li><a href="members.html" class="nav-link magnetic" data-text="TEAM">TEAM</a></li>
+        </ul>
+        <a href="generate.html" style="text-decoration: none;"><button class="cta-btn magnetic"><span>TRY
+                    DEMO</span></button></a>
+    </nav>
+
+    <!-- 3D Vertical Slider Architecture -->
+    <div class="wrapper active-page1" id="js-scroll">
+        <!-- Page 1: Overview -->
+        <div class="page page1">
+            <div class="page-inner">
+                <h1 class="hero-title">RESEARCH & ANALYSIS</h1>
+                <h2>01. OVERVIEW</h2>
+                <p class="doc-p">This project focuses on developing an AI-powered system capable of generating
+                    photorealistic 3D models from images and video clips. The research explores modern generative AI
+                    techniques, GPU acceleration, and real-time rendering to enable fast and automated 3D
+                    reconstruction.</p>
+            </div>
+        </div>
+
+        <!-- Page 2: Problem Analysis -->
+        <div class="page page2">
+            <div class="page-inner">
+                <h2><span class="num">02.</span> PROBLEM ANALYSIS</h2>
+                <p class="doc-p">Traditional 3D model creation has major limitations:</p>
+                <div class="tech-box">
+                    <ul>
+                        <li>Requires manual modeling using professional tools</li>
+                        <li>Time-consuming and complex process</li>
+                        <li>Requires technical expertise</li>
+                        <li>Not suitable for real-time applications</li>
+                        <li>Difficult for rapid prototyping</li>
+                    </ul>
+                </div>
+                <p class="doc-p">These challenges highlight the need for an automated AI-based solution.</p>
+            </div>
+        </div>
+
+        <!-- Page 3: AI-Based Solution -->
+        <div class="page page3">
+            <div class="page-inner">
+                <h2><span class="num">03.</span> AI-BASED SOLUTION</h2>
+                <p class="doc-p">Generative AI models can reconstruct 3D geometry from visual input. Capabilities
+                    include:</p>
+                <div class="tech-box">
+                    <ul>
+                        <li>Understanding object shape and structure</li>
+                        <li>Predicting 3D depth and geometry</li>
+                        <li>Generating complete 3D meshes</li>
+                        <li>Applying realistic textures</li>
+                    </ul>
+                </div>
+                <p class="doc-p">This enables automated and fast 3D model creation.</p>
+            </div>
+        </div>
+
+        <!-- Page 4: Selected Model -->
+        <div class="page page4">
+            <div class="page-inner">
+                <h2><span class="num">04.</span> SELECTED MODEL:<br>SHAP-E</h2>
+                <p class="doc-p">Shap-E was selected as the primary 3D generation model. Key advantages:</p>
+                <div class="tech-box">
+                    <ul>
+                        <li>Fast generation speed (10–15 seconds)</li>
+                        <li>Works efficiently on consumer GPUs</li>
+                        <li>Generates complete 3D mesh output</li>
+                        <li>Suitable for real-time web applications</li>
+                        <li>Optimized for performance and efficiency</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 5: Alternative Methods -->
+        <div class="page page5">
+            <div class="page-inner">
+                <h2><span class="num">05.</span> ALTERNATIVE METHODS</h2>
+                <p class="doc-p">Neural Radiance Fields (NeRF) was evaluated as an alternative.</p>
+                <div class="tech-box">
+                    <ul>
+                        <li style="color: #00ff44;"><strong>Advantages:</strong> High visual realism, Detailed output
+                            quality.</li>
+                        <li style="color: #ff3333;"><strong>Limitations:</strong> Very slow generation time, High
+                            hardware requirements, Not suitable for real-time applications.</li>
+                    </ul>
+                </div>
+                <p class="doc-p">Due to these limitations, Shap-E was selected.</p>
+            </div>
+        </div>
+
+        <!-- Page 6: Video Processing Method -->
+        <div class="page page6">
+            <div class="page-inner">
+                <h2><span class="num">06.</span> VIDEO PROCESSING METHOD</h2>
+                <p class="doc-p">Video input is processed using computer vision techniques. Process:</p>
+                <div class="tech-box">
+                    <ul>
+                        <li>Extract video frames using OpenCV</li>
+                        <li>Select representative frame</li>
+                        <li>Send frame to AI model</li>
+                        <li>Generate corresponding 3D model</li>
+                    </ul>
+                </div>
+                <p class="doc-p">This enables real-world object reconstruction.</p>
+            </div>
+        </div>
+
+        <!-- Page 7: GPU Acceleration -->
+        <div class="page page7">
+            <div class="page-inner">
+                <h2><span class="num">07.</span> GPU ACCELERATION</h2>
+                <p class="doc-p">GPU acceleration is essential for efficient AI processing.</p>
+                <div class="tech-box">
+                    <p>> PyTorch</p>
+                    <p>> CUDA GPU Acceleration</p>
+                    <br>
+                    <ul>
+                        <li>Faster generation speed</li>
+                        <li>Reduced processing time</li>
+                        <li>Real-time performance</li>
+                        <li>Efficient AI inference</li>
+                    </ul>
+                </div>
+                <br><br>
+                <p class="credit" style="color: #bbb; font-size: 0.9rem;">© 2026 Final Year Project | Research</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation DOT Panel -->
+    <div class="nav-panel">
+        <div class="scroll-btn up"></div>
+        <div class="scroll-btn down"></div>
+        <nav>
+            <ul>
+                <li data-target="1" class="nav-btn nav-page1 active"></li>
+                <li data-target="2" class="nav-btn nav-page2"></li>
+                <li data-target="3" class="nav-btn nav-page3"></li>
+                <li data-target="4" class="nav-btn nav-page4"></li>
+                <li data-target="5" class="nav-btn nav-page5"></li>
+                <li data-target="6" class="nav-btn nav-page6"></li>
+                <li data-target="7" class="nav-btn nav-page7"></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Logic -->
+    <script src="js/main.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // 3D Vertical Slider Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const wrap = document.querySelector(".wrapper");
+            const pages = document.querySelectorAll(".page").length;
+            let scrolling = false;
+            let currentPage = 1;
+            const navPanel = document.querySelector(".nav-panel");
+            const scrollBtns = document.querySelectorAll(".scroll-btn");
+            const navBtns = document.querySelectorAll(".nav-btn");
+
+            function manageClasses() {
+                wrap.className = "wrapper";
+                wrap.classList.add("active-page" + currentPage);
+
+                navBtns.forEach(btn => btn.classList.remove("active"));
+                document.querySelector(".nav-page" + currentPage).classList.add("active");
+
+                navPanel.classList.add("invisible");
+                scrolling = true;
+                setTimeout(function () {
+                    navPanel.classList.remove("invisible");
+                    scrolling = false;
+                }, 1000);
+            }
+
+            function navigateUp() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    manageClasses();
+                }
+            }
+
+            function navigateDown() {
+                if (currentPage < pages) {
+                    currentPage++;
+                    manageClasses();
+                }
+            }
+
+            // Mousewheel Navigation (Prevent Native Scroll Conflict)
+            document.addEventListener("wheel", function (e) {
+                e.preventDefault();
+                if (!scrolling) {
+                    if (e.deltaY < 0) {
+                        navigateUp();
+                    } else if (e.deltaY > 0) {
+                        navigateDown();
+                    }
+                }
+            }, { passive: false });
+
+            // Arrow Navigation
+            scrollBtns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    if (this.classList.contains("up")) navigateUp();
+                    else navigateDown();
+                });
+            });
+
+            // Dot Navigation
+            navBtns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    if (!scrolling && !this.classList.contains("active")) {
+                        const target = parseInt(this.getAttribute("data-target"));
+                        currentPage = target;
+                        manageClasses();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

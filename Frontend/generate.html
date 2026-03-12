@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate 3D | NeuroMesh</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700;800&family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/generate.css">
+    <link rel="stylesheet" href="css/liquid-transition.css">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/liquid-transition.js"></script>
+    <!-- Specific page styles now handled strictly via generate.css -->
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="cursor"></div>
+
+    <nav class="brutal-nav">
+        <a href="index.html" class="nav-logo magnetic" style="text-decoration: none;">NEUROMESH</a>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link magnetic" data-text="HOME">HOME</a></li>
+            <li><a href="about.html" class="nav-link magnetic" data-text="ABOUT">ABOUT</a></li>
+            <li><a href="research.html" class="nav-link magnetic" data-text="RESEARCH">RESEARCH</a></li>
+            <li><a href="members.html" class="nav-link magnetic" data-text="TEAM">TEAM</a></li>
+        </ul>
+        <a href="generate.html" style="text-decoration: none;"><button class="cta-btn magnetic"><span>TRY
+                    DEMO</span></button></a>
+    </nav>
+
+    <!-- Layout Structure -->
+    <div id="scroll-content" class="generate-content"
+        style="position: relative; z-index: 10; min-height: 100vh; padding-top: 120px; display: flex; align-items: center; justify-content: center; padding-bottom: 4rem;">
+        <div class="portal-container gs-reveal" style="max-width: 1000px; width: 100%; margin: 0 auto; padding: 2rem;">
+
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <h1
+                    style="font-family: 'Syncopate', sans-serif; font-size: 3rem; letter-spacing: 2px; margin-bottom: 1rem; color: #fff;">
+                    SELECT DEMO MODULE</h1>
+                <p
+                    style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                    Initialize your neural synthesis engine. Choose between our flagship Image-to-3D pipeline or our
+                    experimental Text-to-3D sequence generator.
+                </p>
+            </div>
+
+            <div class="portal-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <!-- 3D GENERATOR CARD -->
+                <a href="generate-image.html" class="portal-card magnetic" style="text-decoration: none;">
+                    <div class="portal-card-inner">
+                        <div class="card-icon-wrapper" style="margin-bottom: 2rem;">
+                            <i data-lucide="box" style="width: 64px; height: 64px; color: var(--accent);"></i>
+                        </div>
+                        <h2
+                            style="font-family: 'Syncopate', sans-serif; font-size: 1.8rem; margin-bottom: 1rem; color: #fff;">
+                            3D GENERATOR</h2>
+                        <p
+                            style="color: #888; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem; min-height: 80px;">
+                            Upload reference images or video frames. The engine will instantly synthesize a highly
+                            structured 3D topology and automated prompt.
+                        </p>
+                        <div class="portal-card-footer"
+                            style="display: flex; align-items: center; gap: 1rem; color: var(--accent); font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.9rem;">
+                            <span>INITIALIZE CORE</span>
+                            <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- TEXT TO 3D CARD -->
+                <a href="generate-text.html" class="portal-card magnetic" style="text-decoration: none;">
+                    <div class="portal-card-inner">
+                        <div class="card-icon-wrapper" style="margin-bottom: 2rem;">
+                            <i data-lucide="terminal-square"
+                                style="width: 64px; height: 64px; color: var(--secondary);"></i>
+                        </div>
+                        <h2
+                            style="font-family: 'Syncopate', sans-serif; font-size: 1.8rem; margin-bottom: 1rem; color: #fff;">
+                            TEXT TO 3D</h2>
+                        <p
+                            style="color: #888; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem; min-height: 80px;">
+                            Provide a descriptive neural sequence. Our LLM-driven backend will hallucinate geometric
+                            structures directly from your semantic parameters.
+                        </p>
+                        <div class="portal-card-footer secondary-theme"
+                            style="display: flex; align-items: center; gap: 1rem; color: var(--secondary); font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.9rem;">
+                            <span>INITIALIZE TERMINAL</span>
+                            <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/liquid-transition.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script src="js/main.js"></script>
+    <script type="module" src="js/generator-logic.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
